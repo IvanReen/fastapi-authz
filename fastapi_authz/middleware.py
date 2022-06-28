@@ -32,7 +32,6 @@ class CasbinMiddleware:
 
         if self._enforce(scope, receive) or scope["method"] == "OPTIONS":
             await self.app(scope, receive, send)
-            return
         else:
             response = JSONResponse(
                 status_code=HTTP_403_FORBIDDEN,
@@ -40,7 +39,8 @@ class CasbinMiddleware:
             )
 
             await response(scope, receive, send)
-            return
+
+        return
 
     def _enforce(self, scope: Scope, receive: Receive) -> bool:
         """
